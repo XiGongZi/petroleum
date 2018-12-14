@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.PositionDao">
+
+	<resultMap id="PositionMap" type="com.syonenet.entity.Position">
+		<id property="positionId" column="position_id" />
+		<result property="positionName"  column="position_name" />
+		<result property="positionModel1"  column="position_model1" />
+		<result property="positionModel2"  column="position_model2" />
+		<result property="positionValue1"  column="position_value1" />
+	</resultMap>
+	
+		<!-- 查询所有信息 -->
+	<select id="findPositionList" parameterType="Map" resultMap="PositionMap">
+		select * from tbl_position order by position_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 查询总记录数 -->
+	<select id="findPositionCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_position
+	</select>
+	
+	<!-- 查询指定信息 -->
+	<select id="findPositionByPositionId" parameterType="Integer" resultMap="PositionMap">
+		select * from tbl_position where position_id = #{positionId}
+	</select>
+	
+	<!-- 添加信息 -->
+	<insert id="addPosition" parameterType="Position">
+		insert into tbl_position(position_name, position_model1, position_model2, position_value1)
+		values(#{positionName}, #{positionModel1}, #{positionModel2}, #{positionValue1})
+	</insert>
+	
+	<!-- 更新信息 -->
+	<update id="updatePosition" parameterType="Position">
+		update tbl_position
+		<set>
+			<if test="positionName != null">
+				position_name = #{positionName},
+			</if>
+			<if test="positionModel1 != null">
+				position_model1 = #{positionModel1},
+			</if>
+			<if test="positionModel2 != null">
+				position_model2 = #{positionModel2},
+			</if>
+			<if test="positionValue1 != null">
+				position_value1 = #{positionValue1},
+			</if>
+		</set>
+		where position_id = #{positionId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<delete id="deletePosition" parameterType="Integer">
+		delete from tbl_position where position_id = #{positionId}
+	</delete>
+
+
+</mapper>

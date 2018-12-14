@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.ElementDao">
+
+	<resultMap id="ElementMap" type="com.syonenet.entity.Element">
+		<id property="elementId" column="element_id" />
+		<result property="elementName"  column="element_name" />
+		<result property="elementValue"  column="element_value" />
+	</resultMap>
+	
+		<!-- 查询所有信息 -->
+	<select id="findElementList" parameterType="Map" resultMap="ElementMap">
+		select * from tbl_element order by element_id asc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 查询总记录数 -->
+	<select id="findElementCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_element
+	</select>
+	
+	<!-- 查询指定信息 -->
+	<select id="findElementByElementId" parameterType="Integer" resultMap="ElementMap">
+		select * from tbl_element where element_id = #{elementId}
+	</select>
+	
+	<!-- 添加信息 -->
+	<insert id="addElement" parameterType="Element">
+		insert into tbl_element(element_name, element_value)
+		values(#{elementName}, #{elementValue})
+	</insert>
+	
+	<!-- 更新信息 -->
+	<update id="updateElement" parameterType="Element">
+		update tbl_element
+		<set>
+			<if test="elementName != null">
+				element_name = #{elementName},
+			</if>
+			<if test="elementValue != null">
+				element_value = #{elementValue},
+			</if>
+		</set>
+		where element_id = #{elementId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<delete id="deleteElement" parameterType="Integer">
+		delete from tbl_element where element_id = #{elementId}
+	</delete>
+
+</mapper>

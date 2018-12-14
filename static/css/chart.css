@@ -1,0 +1,61 @@
+/* gongzixi 20181019  图表 */
+
+*{font-family:"微软雅黑","microsoft Yahei",verdana;}  
+.text01{line-height:20px;font-size:13px;font-family:verdana;}  
+pre{margin:0px;padding:2px 0px;font-size:13px;font-family:verdana;}  
+.div01{border:1px solid red;text-align:left;padding:5px;  
+}
+.left1{
+    top:100px;
+    left:800px;
+}
+.left3{
+    top:500px;
+    /* left:100px; */
+}
+
+.canvasMax{
+    width:650px;
+    height:350px;
+    margin-top:32px;
+    margin-left:20px;
+    border-radius:16px;
+    background: #1D1F25;
+    position: relative;
+    left:0;
+    top:0
+    /* background:#fff; */
+}
+.canvasMax:hover{
+  /* //Firefox4.0-   */
+  -moz-box-shadow:0 0 5px 5px #121212;
+  /* 投影方式 X轴偏移量 Y轴偏移量阴影模糊半径 阴影扩展半径 阴影颜色;   */
+  /* //Safariand Google chrome10.0-   */
+  -webkit-box-shadow:0 0 5px 5px #121212;
+  /* 投影方式 X轴偏移量 Y轴偏移量阴影模糊半径 阴影扩展半径 阴影颜色;   */
+  /* //Firefox4.0+、 Google chrome 10.0+ 、 Oprea10.5+ and IE9   */
+  box-shadow: 0 0 5px 5px #121212;
+   /* 投影方式 X轴偏移量 Y轴偏移量 阴影模糊半径 阴影扩展半径 阴影颜色;   */
+}
+.canvasMax>div{
+    margin:0 auto;
+}
+.new1{
+    height:40px;
+    width:1px;
+}
+h4{
+    color:#fff;
+}
+.canvasMax .closeThis{
+    width:30px;
+    height:30px;
+    /* background:#fff; */
+    color:#B4000A;
+    position: absolute;
+    top:16px;
+    right:4px;
+}
+.canvasMax .closeThis:hover{
+    color:red
+}

@@ -1,0 +1,63 @@
+.leftBarMax{
+    width:220px;
+    height:100%;
+    /* overflow: auto; */
+}
+
+  .leftBarMax  .firstBar a{
+    height:60px;
+    width:120px;
+  }
+.leftBarMax  .firstBar .leftBarMin{
+    height:60px;
+    background:#24262E;
+    text-align:center;
+    color:#989BA3;
+    border-bottom:1px solid #151A20;
+}
+.leftBarMax  .firstBar .leftBarMin>*{
+    display:inline-block;
+}
+.leftBarMax  .firstBar .leftBarMin div{
+    width:120px;
+    line-height:60px;
+}
+.leftBarMax  .firstBar .leftBarMin .mainIcon{
+    width:20px;
+}
+.leftBarMax  .firstBar .leftBarMin .rightIcon{
+    width:20px;
+    height:20px;
+}
+.leftBarMax  .firstBar .leftBarMin_hover{
+    color:#fff;
+    /* background:#353840; */
+}
+.hoverRightIcon .rightIcon{
+    transition:0.2s;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+.leftBarMax .seconedBar{
+    width:220px;
+    position: absolute;
+    top:122px;
+    left:220px;
+    display:none;
+    z-index:1000;
+}
+.leftBarMax .seconedBar a{
+    height:60px;
+}
+.leftBarMax .seconedBar>*>div{
+    height:60px;
+    background:#262626;
+    text-align:center;
+    color:#989BA3;
+    line-height:60px;
+    border-bottom:1px solid #151A20;
+}
+.leftBarMax .seconedBar .barDiv_hover{
+    color:#FFF;
+    background:#202020;
+}

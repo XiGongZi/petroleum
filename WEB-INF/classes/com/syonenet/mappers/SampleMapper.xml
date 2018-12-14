@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.SampleDao">
+
+	<resultMap id="SampleMap" type="Sample">
+		<id property="sampleId" column="sample_id" />
+		<result property="sampleName"  column="sample_name" />
+		<result property="typeId"  column="type_Id" />
+		<result property="typeName"  column="type_name" />
+		<result property="addUser"  column="add_user" />
+		<result property="addTime"  column="add_time" />
+		<result property="sampleDate"  column="sample_date" />
+		<result property="sampleV1"  column="sample_v1" />
+		<result property="sampleV2"  column="sample_v2" />
+		<result property="sampleV3"  column="sample_v3" />
+		<result property="sampleV4"  column="sample_v4" />
+		<result property="sampleV5"  column="sample_v5" />
+		<result property="sampleV6"  column="sample_v6" />
+		<result property="sampleV7"  column="sample_v7" />
+		<result property="sampleV8"  column="sample_v8" />
+		<result property="sampleV9"  column="sample_v9" />
+		<result property="sampleV10"  column="sample_v10" />
+		<result property="sampleV11"  column="sample_v11" />
+		<result property="sampleV12"  column="sample_v12" />
+		<result property="sampleV13"  column="sample_v13" />
+		<result property="sampleV14"  column="sample_v14" />
+		<result property="sampleV15"  column="sample_v15" />
+		<result property="sampleV16"  column="sample_v16" />
+		<result property="sampleV17"  column="sample_v17" />
+		<result property="sampleV18"  column="sample_v18" />
+	</resultMap>
+	
+	<!-- 查询所有信息 -->
+	<select id="findSampleList" parameterType="Map" resultMap="SampleMap">
+		select * from tbl_sample where delete_id = 1 
+		<if test="sampleName != null and sampleName != '' ">
+			and sample_name = #{sampleName}
+		</if>
+		<if test="typeId != null and typeId != '' ">
+			and type_id = #{typeId}
+		</if>
+		<if test="beginDate != null and beginDate != '' ">
+            <![CDATA[ and sample_date >= DATE_FORMAT(#{beginDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="endDate != null and endDate != '' ">
+            <![CDATA[ and sample_date <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')]]>
+        </if>
+		order by sample_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 查询总记录数 -->
+	<select id="findSampleCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_sample where delete_id = 1
+		<if test="sampleName != null and sampleName != '' ">
+			and sample_name = #{sampleName}
+		</if>
+		<if test="typeId != null and typeId != '' ">
+			and type_id = #{typeId}
+		</if>
+		<if test="beginDate != null and beginDate != '' ">
+            <![CDATA[ and sample_date >= DATE_FORMAT(#{beginDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="endDate != null and endDate != '' ">
+            <![CDATA[ and sample_date <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')]]>
+        </if>
+	</select>
+	
+	<!-- 查询所有信息 -->
+	<select id="findSampleListByCondition" parameterType="Map" resultMap="SampleMap">
+		select * from tbl_sample where delete_id = 1
+		<if test="sampleId != null">
+			and sample_id = #{sampleId}
+		</if>
+		<if test="sampleName != null and sampleName != '' ">
+			and sample_name = #{sampleName}
+		</if>
+		<if test="typeId != null">
+			and type_id = #{typeId}
+		</if>
+		<if test="beginDate != null and beginDate != '' ">
+            <![CDATA[ and sample_date >= DATE_FORMAT(#{beginDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="endDate != null and endDate != '' ">
+            <![CDATA[ and sample_date <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="typeList != null">
+			and type_id in 
+			<foreach collection="typeList" index="index" item="typeId" open="(" separator="," close=")">
+				#{typeId}       
+        	</foreach>   
+		</if>
+		<if test="findDate != null">
+            <![CDATA[ and sample_date = DATE_FORMAT(#{findDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="groupBy != null ">
+			group by sample_date
+		</if>
+		order by sample_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 查询所有信息 -->
+	<select id="findSampleCountByCondition" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_sample where delete_id = 1
+		<if test="typeId != null">
+			and type_id = #{typeId}
+		</if>
+		<if test="sampleName != null and sampleName != '' ">
+			and sample_name = #{sampleName}
+		</if>
+		<if test="beginDate != null and beginDate != '' ">
+            <![CDATA[ and sample_date >= DATE_FORMAT(#{beginDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="endDate != null and endDate != '' ">
+            <![CDATA[ and sample_date <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="typeList != null">
+			and type_id in 
+			<foreach collection="typeList" index="index" item="typeId" open="(" separator="," close=")">
+				#{typeId}       
+        	</foreach>   
+		</if>
+		<if test="findDate != null">
+            <![CDATA[ and sample_date = DATE_FORMAT(#{findDate}, '%Y-%m-%d')]]>
+        </if>
+	</select>
+	
+	<select id="findSampleAvgByCondition" parameterType="Map" resultMap="SampleMap">
+		select 
+			AVG(sample_v1) AS sample_v1,
+			AVG(sample_v2) AS sample_v2,
+			AVG(sample_v3) AS sample_v3,
+			AVG(sample_v4) AS sample_v4,
+			AVG(sample_v5) AS sample_v5,
+			AVG(sample_v6) AS sample_v6,
+			AVG(sample_v7) AS sample_v7,
+			AVG(sample_v8) AS sample_v8,
+			AVG(sample_v9) AS sample_v9,
+			AVG(sample_v10) AS sample_v10,
+			AVG(sample_v11) AS sample_v11,
+			AVG(sample_v12) AS sample_v12,
+			AVG(sample_v13) AS sample_v13,
+			AVG(sample_v14) AS sample_v14,
+			AVG(sample_v15) AS sample_v15,
+			AVG(sample_v16) AS sample_v16,
+			AVG(sample_v17) AS sample_v17,
+			AVG(sample_v18) AS sample_v18 
+		from tbl_sample where delete_id = 1
+		<if test="typeId != null">
+			and type_id = #{typeId}
+		</if>
+		<if test="beginDate != null">
+            <![CDATA[ and sample_date >= DATE_FORMAT(#{beginDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="endDate != null">
+            <![CDATA[ and sample_date <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')]]>
+        </if>
+        <if test="typeList != null">
+			and type_id in 
+			<foreach collection="typeList" index="index" item="typeId" open="(" separator="," close=")">
+				#{typeId}       
+        	</foreach>   
+		</if>
+		<if test="findDate != null">
+            <![CDATA[ and sample_date = DATE_FORMAT(#{findDate}, '%Y-%m-%d')]]>
+        </if>
+	</select>
+	
+	<!-- 查询指定信息 -->
+	<select id="findLastSample" resultMap="SampleMap">
+		SELECT
+			sample_id,
+			sample_name,
+			type_id,
+			type_name,
+			add_user,
+			add_time,
+			sample_date,
+			sample_v1,
+			sample_v2,
+			sample_v3,
+			sample_v4,
+			sample_v5,
+			sample_v6,
+			sample_v7,
+			sample_v8,
+			sample_v9,
+			sample_v10,
+			sample_v11,
+			sample_v12,
+			sample_v13,
+			sample_v14,
+			sample_v15,
+			sample_v16,
+			sample_v17,
+			sample_v18,
+			sample_v19,
+			sample_v20,
+			delete_id
+		FROM
+			tbl_sample
+		ORDER BY
+			CONVERT(substring(sample_name,3),SIGNED) DESC
+		LIMIT 0,1
+	</select>
+	
+	<!-- 查询指定信息 -->
+	<select id="findSampleBySampleId" parameterType="Integer" resultMap="SampleMap">
+		select * from tbl_sample where sample_id = #{sampleId}
+	</select>
+	
+	<!-- 添加信息 -->
+	<insert id="addSample" parameterType="Sample">
+		insert into tbl_sample(sample_name, type_id, type_name, add_user, add_time, sample_date, sample_v1, sample_v2, sample_v3, sample_v4, sample_v5, sample_v6, sample_v7, sample_v8, sample_v9, sample_v10, sample_v11, sample_v12, sample_v13, sample_v14, sample_v15, sample_v16, sample_v17, sample_v18)
+		values(#{sampleName}, #{typeId}, #{typeName}, #{addUser}, #{addTime}, #{sampleDate}, #{sampleV1}, #{sampleV2}, #{sampleV3}, #{sampleV4}, #{sampleV5}, #{sampleV6}, #{sampleV7}, #{sampleV8}, #{sampleV9}, #{sampleV10}, #{sampleV11}, #{sampleV12}, #{sampleV13}, #{sampleV14}, #{sampleV15}, #{sampleV16}, #{sampleV17}, #{sampleV18})
+	</insert>
+	
+	<!-- 更新信息 -->
+	<update id="updateSample" parameterType="Sample">
+		update tbl_sample
+		<set>
+			<if test="sampleName != null">
+				sample_name = #{sampleName},
+			</if>
+			<if test="typeId != null">
+				type_id = #{typeId},
+			</if>
+			<if test="typeName != null">
+				type_name = #{typeName},
+			</if>
+			<if test="sampleDate != null">
+				sample_date = #{sampleDate},
+			</if>
+			<if test="sampleV1 != null">
+				sample_v1 = #{sampleV1},
+			</if>
+			<if test="sampleV2 != null">
+				sample_v2 = #{sampleV2},
+			</if>
+			<if test="sampleV3 != null">
+				sample_v3 = #{sampleV3},
+			</if>
+			<if test="sampleV4 != null">
+				sample_v4 = #{sampleV4},
+			</if>
+			<if test="sampleV5 != null">
+				sample_v5 = #{sampleV5},
+			</if>
+			<if test="sampleV6 != null">
+				sample_v6 = #{sampleV6},
+			</if>
+			<if test="sampleV7 != null">
+				sample_v7 = #{sampleV7},
+			</if>
+			<if test="sampleV8 != null">
+				sample_v8 = #{sampleV8},
+			</if>
+			<if test="sampleV9 != null">
+				sample_v9 = #{sampleV9},
+			</if>
+			<if test="sampleV10 != null">
+				sample_v10 = #{sampleV10},
+			</if>
+			<if test="sampleV11 != null">
+				sample_v11 = #{sampleV11},
+			</if>
+			<if test="sampleV12 != null">
+				sample_v12 = #{sampleV12},
+			</if>
+			<if test="sampleV13 != null">
+				sample_v13 = #{sampleV13},
+			</if>
+			<if test="sampleV14 != null">
+				sample_v14 = #{sampleV14},
+			</if>
+			<if test="sampleV15 != null">
+				sample_v15 = #{sampleV15},
+			</if>
+			<if test="sampleV16 != null">
+				sample_v16 = #{sampleV16},
+			</if>
+			<if test="sampleV17 != null">
+				sample_v17 = #{sampleV17},
+			</if>
+			<if test="sampleV18 != null">
+				sample_v18 = #{sampleV18},
+			</if>
+		</set>
+		where sample_id = #{sampleId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<update id="deleteSample" parameterType="Integer">
+		update tbl_sample set delete_id = 0 where sample_id = #{sampleId}
+	</update>
+
+</mapper> 

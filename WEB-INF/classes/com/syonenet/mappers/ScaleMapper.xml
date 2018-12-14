@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.ScaleDao">
+
+	<resultMap id="ScaleMap" type="com.syonenet.entity.Scale">
+		<id property="scaleId" column="scale_id" />
+		<result property="scaleName"  column="scale_name" />
+		<result property="scaleContent"  column="scale_content" />
+	</resultMap>
+	
+		<!-- 查询所有信息 -->
+	<select id="findScaleList" parameterType="Map" resultMap="ScaleMap">
+		select * from tbl_scale order by scale_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 查询总记录数 -->
+	<select id="findScaleCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_scale
+	</select>
+	
+	<!-- 查询指定信息 -->
+	<select id="findScaleByScaleId" parameterType="Integer" resultMap="ScaleMap">
+		select * from tbl_scale where scale_id = #{scaleId}
+	</select>
+	
+	<!-- 添加信息 -->
+	<insert id="addScale" parameterType="Scale">
+		insert into tbl_scale(scale_name, scale_content)
+		values(#{scaleName}, #{scaleContent})
+	</insert>
+	
+	<!-- 更新信息 -->
+	<update id="updateScale" parameterType="Scale">
+		update tbl_scale
+		<set>
+			<if test="scaleName != null">
+				scale_name = #{scaleName},
+			</if>
+			<if test="scaleContent != null">
+				scale_content = #{scaleContent},
+			</if>
+		</set>
+		where scale_id = #{scaleId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<delete id="deleteScale" parameterType="Integer">
+		delete from tbl_scale where scale_id = #{scaleId}
+	</delete>
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.ReportDao">
+
+	<resultMap id="ReportMap" type="com.syonenet.entity.Report">
+		<id property="reportId" column="report_id" />
+		<result property="addTime" column="add_time"/>
+		<result property="reportContent" column="report_content"/>
+	</resultMap>
+
+	<!-- 查询所有信息 -->
+	<select id="findReportList" parameterType="Map" resultMap="ReportMap">
+		select * from tbl_report order by report_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+
+	<!-- 查询总记录数 -->
+	<select id="findReportCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_report
+	</select>
+
+	<!-- 查询指定信息 -->
+	<select id="findReportByReportId" parameterType="Integer"
+		resultMap="ReportMap">
+		select * from tbl_report where report_id = #{reportId}
+	</select>
+
+	<!-- 添加信息 -->
+	<insert id="addReport" parameterType="Report">
+		insert into
+		tbl_report(add_time, report_content)
+		values(#{addTime}, #{reportContent})
+	</insert>
+
+	<!-- 更新信息 -->
+	<update id="updateReport" parameterType="Report">
+		update tbl_report
+		<set>
+			<if test="reportName != null">
+				report_name = #{reportName},
+			</if>
+			<if test="reportModel1 != null">
+				report_model1 = #{reportModel1},
+			</if>
+			<if test="reportModel2 != null">
+				report_model2 = #{reportModel2},
+			</if>
+			<if test="reportValue1 != null">
+				report_value1 = #{reportValue1},
+			</if>
+		</set>
+		where report_id = #{reportId}
+	</update>
+
+	<!-- 删除信息 -->
+	<delete id="deleteReport" parameterType="Integer">
+		delete from tbl_report
+		where report_id = #{reportId}
+	</delete>
+
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.ManagerDao">
+
+	<resultMap id="ManagerMap" type="Manager">
+		<id property="managerId" column="manager_id" />
+		<result property="loginId"  column="login_Id" />
+		<result property="loginPwd"  column="login_pwd" />
+		<result property="loginNick"  column="login_nick" />
+		<result property="roleId"  column="role_id" />
+		<result property="groupId"  column="group_id" />
+		<result property="groupName"  column="group_name" />
+		<result property="addTime"  column="add_time" />
+		<result property="statusId"  column="status_id" />
+		<result property="errorCount"  column="error_count" />
+		<result property="errorTime"  column="error_time" />
+	</resultMap>
+	
+	<!-- 获取所有管理员 -->
+	<select id="findManagerList" parameterType="Map" resultMap="ManagerMap">
+		select * from tbl_manager order by manager_id desc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<!-- 获取总记录数 -->
+	<select id="findManagerCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_manager
+	</select>
+	
+	<!-- 添加管理员 -->
+	<insert id="addManager" parameterType="Manager">
+		insert into tbl_manager(login_id, login_pwd, login_nick, role_id, group_id, group_name, add_time)
+		values(#{loginId}, #{loginPwd}, #{loginNick}, #{roleId}, #{groupId}, #{groupName}, #{addTime})
+	</insert>
+	
+	<select id="findManagerByManagerId" parameterType="Integer" resultMap="ManagerMap">
+		select * from tbl_manager where manager_id = #{managerId}
+	</select>
+	
+	<select id="findManagerByLoginId" parameterType="String" resultMap="ManagerMap">
+		select * from tbl_manager where login_Id = #{loginId}
+	</select>
+	
+	<update id="updateManager" parameterType="Manager">
+		update tbl_manager
+		<set>
+			<if test="loginPwd != null and loginPwd != ''">
+				login_pwd = #{loginPwd},
+			</if>
+			<if test="loginNick != null and loginNick != ''">
+				login_nick = #{loginNick},
+			</if>
+			<if test="roleId != null and roleId != ''">
+				role_id = #{roleId},
+			</if>
+			<if test="statusId != null and statusId != ''">
+				status_id = #{statusId},
+			</if>
+		</set>
+		where manager_id=#{managerId}
+	</update>
+	
+	<update id="updateManagerError" parameterType="Manager">
+		update tbl_manager
+			<set>
+				<if test="errorCount != null and errorTime != ''">
+					error_count = #{errorCount},
+				</if>
+				<if test="errorTime != null and errorTime != ''">
+					error_time = #{errorTime},
+				</if>
+			</set>
+		where manager_id=#{managerId}
+	</update>
+	
+	<update id="updateManagerErrorClear" parameterType="Integer">
+		update tbl_manager
+			<set>
+				error_count= 0,
+				error_time= null,
+			</set>
+		where manager_id=#{managerId}
+	</update>
+	
+	<update id="updateManagerPwd" parameterType="Manager">
+		update tbl_manager
+			<set>
+				<if test="loginPwd != null and loginPwd != ''">
+					login_pwd = #{loginPwd},
+				</if>
+			</set>
+		where manager_id=#{managerId}
+	</update>
+
+	<delete id="deleteManager" parameterType="Integer">
+		delete from tbl_manager where manager_id=#{managerId}
+	</delete>
+
+</mapper>

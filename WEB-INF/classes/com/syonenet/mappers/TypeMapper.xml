@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syonenet.dao.TypeDao">
+
+	<resultMap id="TypeMap" type="com.syonenet.entity.Type">
+		<id property="typeId" column="type_id" />
+		<result property="typeName"  column="type_name" />
+		<result property="deleteId"  column="delete_id" />
+	</resultMap>
+	
+	<select id="findTypeList" parameterType="Map" resultMap="TypeMap">
+		select * from tbl_type order by type_id asc
+		<if test="start != null and size != null">
+			limit #{start}, #{size}
+		</if>
+	</select>
+	
+	<select id="findTypeCount" parameterType="Map" resultType="Integer">
+		select count(*) from tbl_type
+	</select>
+	
+	<select id="findTypeByTypeId" parameterType="Integer" resultMap="TypeMap">
+		select * from tbl_type where type_id = #{typeId}
+	</select>
+	
+	<insert id="addType" parameterType="Type">
+		insert into tbl_type(type_name) values(#{typeName})
+	</insert>
+	
+	<update id="updateType" parameterType="Type">
+		update tbl_type
+		<set>
+			<if test="typeName != null and typeName != ''">
+				type_name = #{typeName},
+			</if>
+		</set>
+		where type_id=#{typeId}
+	</update>
+	
+	<update id="deleteType">
+		update tbl_type set delete_id = 1 where type_id=#{typeId}
+	</update>
+
+</mapper>
